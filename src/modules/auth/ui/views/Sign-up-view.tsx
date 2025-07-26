@@ -1,18 +1,18 @@
 "use client";
+import { Alert, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { z } from "zod";
-import {  zodResolver  } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Alert, AlertTitle } from "@/components/ui/alert";
+import { authClient } from "@/lib/auth-client";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { OctagonAlertIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { FaGithub, FaGoogle, FaLinkedin } from 'react-icons/fa';
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
+import { useForm } from "react-hook-form";
+import { FaGithub, FaGoogle } from 'react-icons/fa';
+import { z } from "zod";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name Required"),
@@ -47,6 +47,7 @@ export const SignUpView = () => {
       email: data.email,
       password: data.password,
       name: data.name,
+      callbackURL:"/"
     },{
       onSuccess: () => {
         setPending(false);
@@ -60,6 +61,27 @@ export const SignUpView = () => {
     
   }
 
+
+    const onSocial = (provider : "github" | "google") => {
+    setError(null);
+    setPending(true);
+    authClient.signIn.social(
+      {
+        provider : provider,
+        callbackURL:"/"
+      },
+      {
+        onSuccess: () => {
+          setPending(false);
+      
+        },
+        onError: ({ error }) => {
+          setPending(false);
+          setError(error.message);
+        },
+      }
+    );
+  }
 
   return (
       <div className="flex flex-col gap-6"> 
@@ -175,25 +197,21 @@ export const SignUpView = () => {
                   </span>
                 </div>
                 { /* Placeholder for social login buttons */}
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 gap-4">
                   <Button
                   variant={"outline"}
                   type="button"
                   disabled={pending}
                   className="w-full"
+                  onClick={() =>onSocial("google")}
                   >  <FaGoogle/> </Button>
                   <Button
                   variant={"outline"}
                   type="button"
                   className="w-full"
                   disabled={pending}
+                  onClick={() =>onSocial("github")}
                   > <FaGithub/> </Button>
-                  <Button
-                  variant={"outline"}
-                  type="button"
-                  className="w-full"
-                  disabled={pending}
-                  > <FaLinkedin/> </Button>
                 </div>
                <div className="text-center text-sm">
                   Already have an account?{' '}
