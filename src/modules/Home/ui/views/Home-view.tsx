@@ -6,59 +6,67 @@ import { useRouter } from "next/navigation"
 
 const HomeView = () => {
   const router = useRouter();
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-50 to-green-100 px-4">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-background px-4">
       <motion.div
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="mb-8 text-center"
       >
-        <img src="/logo.svg" alt="Tandemly Logo" className="mx-auto mb-4 w-20 h-20" />
-        <h1 className="text-4xl md:text-5xl font-bold text-green-700 mb-2">
+       
+        <h1 className="text-4xl md:text-5xl font-bold text-primary mb-2">
           Tandemly
         </h1>
-        <p className="text-lg md:text-xl text-gray-700 font-medium">
-          Meet with Intelligent Agents. Smarter, faster, easier.
+        <p className="text-lg md:text-xl text-foreground font-medium">
+          Learn with Intelligent Agents. Smarter, faster, easier.
         </p>
       </motion.div>
+
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.5 }}
-        className="max-w-xl bg-white rounded-xl shadow-lg p-6 text-center"
+        className="max-w-xl bg-card rounded-xl shadow-lg p-6 text-center border border-border"
       >
-        <h2 className="text-xl font-semibold text-green-600 mb-2">
+        <h2 className="text-xl font-semibold text-primary mb-2">
           What is Tandemly?
         </h2>
-        <p className="text-gray-600 mb-4">
-          Tandemly is your AI-powered meeting platform. Instantly schedule and join meetings where AI Agents helps you take notes, answer questions, and keep everyone on track.
+        <p className="text-sidebar-accent-background  mb-4">
+          Tandemly is your AI-powered Learning platform. Instantly schedule and join meetings where AI Agents help you take notes, answer questions, and keep everyone on track.
         </p>
-        <ul className="list-disc list-inside text-gray-500 text-left mx-auto max-w-md">
+        <ul className="list-disc list-inside text-sidebar-accent-background text-left mx-auto max-w-md">
           <li>Effortless meeting setup</li>
           <li>AI assistant for summaries & follow-ups</li>
           <li>Real-time chat and collaboration</li>
         </ul>
-        <Link href={"/sign-up"}>
-        <button className="mt-8 px-6 py-3 bg-green-600 text-white rounded-lg font-semibold shadow hover:bg-green-700 transition">
-          Get Started
-        </button>
-        </Link>
-        <button
-        onClick={() =>authClient.signOut({
-          fetchOptions:{
-            onSuccess: () => {
-              router.push("/sign-in");
+
+        <div className="flex justify-center mt-8 gap-4 flex-wrap">
+          <Link href="/sign-up">
+            <button className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-semibold shadow hover:ring-2 ring-ring transition">
+              Get Started
+            </button>
+          </Link>
+
+          <button
+            onClick={() =>
+              authClient.signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    router.push("/sign-in");
+                  },
+                },
+              })
             }
-          }
-        })}
-        className="mt-8  ml-8 px-6 py-3 bg-green-600 text-white rounded-lg font-semibold shadow hover:bg-green-700 transition">
-         Sign Out
-        </button>
-        
+            className="px-6 py-3 bg-sidebar-accent text-sidebar-accent-foreground rounded-lg font-semibold shadow hover:ring-2 ring-sidebar-ring transition"
+          >
+            Sign Out
+          </button>
+        </div>
       </motion.div>
     </div>
-  )
-}
+  );
+};
 
 export default HomeView;

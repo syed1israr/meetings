@@ -138,7 +138,7 @@ export const SignInView = () => {
                 <Button
                 disabled={pending}
                 type="submit"
-                className="w-full bg-green-900 hover:bg-green-800 text-white">
+                className="w-full bg-sidebar-accent">
                   Sign In
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-10 after:flex after:items-center after:border-t after:border-border">
@@ -173,7 +173,7 @@ export const SignInView = () => {
               </form>
             </Form>
             
-            <div className="bg-radial from-green-900 to bg-green-900 relative
+            <div className="bg-sidebar-accent relative
             hidden md:flex flex-col gap-y-4 items-center justify-center
             ">
               <img src={"/logo.svg"} alt="image" className="h-[92px] w-[92px]"/>
