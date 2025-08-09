@@ -2,6 +2,7 @@
 
 import { GenerateAvatar } from "@/components/generator"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -57,8 +58,11 @@ const DashBoardUserButton = () => {
           <DrawerHeader>
             <DrawerTitle>{data.user.name}</DrawerTitle>
             <DrawerDescription>{data.user.email}</DrawerDescription>
-          </DrawerHeader>
-    
+        </DrawerHeader>
+          <Button onClick={()=>{onLogOut()}} variant={"outline"} >
+          <LogOutIcon  className="size-4 text-black" />
+          Logout
+        </Button>
         </DrawerContent>
       </Drawer>
     )
