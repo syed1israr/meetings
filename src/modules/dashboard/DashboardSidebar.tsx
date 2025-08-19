@@ -1,23 +1,22 @@
 'use client'
 
-import React from 'react'
+import { Separator } from '@/components/ui/separator'
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem
+} from '@/components/ui/sidebar'
+import { cn } from '@/lib/utils'
+import { BotIcon, VideoIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { 
-    Sidebar,
-    SidebarContent,
-    SidebarGroup,
-    SidebarMenu,
-    SidebarMenuItem,
-    SidebarMenuButton,
-    SidebarGroupContent,
-    SidebarFooter,
-    SidebarHeader
-} from '@/components/ui/sidebar'
-import { BotIcon, VideoIcon } from 'lucide-react'
-import { Separator } from '@/components/ui/separator'
-import { cn } from '@/lib/utils'
 import DashBoardUserButton from './DashBoardUserButton'
 
 
