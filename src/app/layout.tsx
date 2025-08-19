@@ -1,7 +1,7 @@
+import { TRPCReactProvider } from "@/trpc/Client";
 import type { Metadata } from "next";
-import { Orbitron, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
-
 const orbitron = Orbitron({
   variable: "--font-orbitron",
   subsets: ["latin"],
@@ -23,6 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <TRPCReactProvider>
     <html lang="en">
       <body
         className={`${orbitron.variable} ${jetBrainsMono.variable} antialiased`}
@@ -30,5 +31,6 @@ export default function RootLayout({
         {children}
       </body>
     </html>
+    </TRPCReactProvider>
   );
 }
