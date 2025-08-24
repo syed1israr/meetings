@@ -1,7 +1,9 @@
 import { TRPCReactProvider } from "@/trpc/Client";
 import type { Metadata } from "next";
 import { JetBrains_Mono, Orbitron } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next"
 import "./globals.css";
+import { Toaster } from "sonner";
 const orbitron = Orbitron({
   variable: "--font-orbitron",
   subsets: ["latin"],
@@ -23,14 +25,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+        <NuqsAdapter>
     <TRPCReactProvider>
     <html lang="en">
       <body
         className={`${orbitron.variable} ${jetBrainsMono.variable} antialiased`}
       >
+        <Toaster/>
         {children}
       </body>
     </html>
     </TRPCReactProvider>
+    </NuqsAdapter>
   );
 }
