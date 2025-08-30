@@ -17,6 +17,9 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Tandemly",
   description: "Orchestrating your learning journey with AI Agents",
+  icons:{
+    icon: "/logo.svg"
+  }
 };
 
 export default function RootLayout({
