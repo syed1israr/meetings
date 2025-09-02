@@ -80,17 +80,31 @@ export const agentsRouter = createTRPCRouter({
       };
   }),
 
- getOne: protectedProcedure.
+    remove : protectedProcedure
+  .input(z.object({id : z.string()}))
+  .mutation( async({ctx,input})=>{
+    const [ removedAgent ] = await db.delete(agents).where(
+      and(
+        eq(agents.id,input.id),
+        eq(agents.userId,ctx.auth.user.id)
+      ),
+    ).returning();
+    if( !removedAgent ) throw new TRPCError({code :"NOT_FOUND",message:"Agent Not found"});
+    return removedAgent;
+  }),
+  
+  getOne: protectedProcedure.
     input(z.object({ id : z.string()}))
     .query(async ({input,ctx}) => {
 
     const [ExistingAgent] = await db.
-    select().
+    select({
+      meetingCount : sql<number>`5`,
+      ...getTableColumns(agents)}).
     from(agents)
     .where(and(
       eq(agents.id, input.id),
       eq(agents.userId, ctx.auth.user.id)
-      
     ));
     if( !ExistingAgent ) throw new TRPCError({ code : "NOT_FOUND", message:"Agent Not Found"})
 

@@ -6,12 +6,14 @@ import { Empty_state } from '@/components/Empty_state';
 import { useAgentsFilters } from '@/hooks/Use_Agents_Filters';
 import { useTRPC } from '@/trpc/Client';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 
 
 const AgentsView = () => {
     const trpc = useTRPC();
     const [filters,setfilters] = useAgentsFilters();
+    const router = useRouter();
     const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions({
       ...filters
     }));
@@ -49,6 +51,7 @@ const AgentsView = () => {
     <DataTable
       data={data.items || []}
       columns={columns}
+         onRowClick={(r)=>router.push(`/agents/${r.id}`)}
     />
     <DataPagination
               page={filters.page}
