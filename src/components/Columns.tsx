@@ -2,7 +2,7 @@
 
 import { GenerateAvatar } from "@/components/generator"
 import { Badge } from "@/components/ui/badge"
-import { AgentGetOne } from "@/modules/agents/types"
+import { AgentGetMany } from "@/modules/agents/types"
 import { ColumnDef } from "@tanstack/react-table"
 import { CornerDownRightIcon, VideoIcon } from "lucide-react"
 
@@ -10,7 +10,7 @@ import { CornerDownRightIcon, VideoIcon } from "lucide-react"
 
 
 
-export const columns: ColumnDef<AgentGetOne[number]>[] = [
+export const columns: ColumnDef<AgentGetMany[number]>[] = [
   {
     accessorKey: "name",
     header: "Agent Name",
