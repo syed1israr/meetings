@@ -1,6 +1,7 @@
 
 import { ResponsiveDialog } from "@/components/Responsive-dialoge";
-import { MeetingGetOne } from "../../types";
+
+import { MeetingGetOne } from "../types";
 import { MeetingForm } from "./Meeting_Form";
 
 

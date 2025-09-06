@@ -18,7 +18,6 @@ export const UpComingState = ({meetingId} : props) => {
             description="Once you Start this Meeting, a summary Will appear here"
             />
             <div className="flex flex-col-reverse lg:flex-row lg:justify-center items-center gap-2 w-full">
-             Meeting
                    <Button asChild className="w-full lg:w-auto"
                    >
                      <Link href={`/call/${meetingId}`}>

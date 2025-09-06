@@ -43,7 +43,7 @@ export const agentsRouter = createTRPCRouter({
     //     return data;
     // }),
 
-      update : protectedProcedure
+   update : protectedProcedure
   .input(AgentUpdateSchema)
   .mutation(async ({ ctx, input }) => {
     const { id, ...updateData } = input;
@@ -126,7 +126,8 @@ export const agentsRouter = createTRPCRouter({
     const [ExistingAgent] = await db.
     select({
       meetingCount : sql<number>`5`,
-      ...getTableColumns(agents)}).
+      ...getTableColumns(agents),
+    }).
     from(agents)
     .where(and(
       eq(agents.id, input.id),
