@@ -16,7 +16,7 @@ export const NewMeetingDialog = ({ open, onOpenChange }: Props) => {
   return (
     <ResponsiveDialog
       title="New Meeting"
-      description="Create a new Meeting to automate your tasks."
+      description="Create a new Meeting to get started"
       open={open}
       onOpenChange={onOpenChange}
     >
