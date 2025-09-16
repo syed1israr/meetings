@@ -38,16 +38,21 @@ const DashboardSidebar = () => {
     const pathname = usePathname()
 
     return (
-        <Sidebar>
-            <SidebarHeader className='text-sidebar-accent-foreground'>
-                <Link href="/" className='flex items-center gap-2 px-2 pt-2'>
-                    <Image src="/logo.svg" alt="Logo" width={40} height={40} />
-                    <p className='text-2xl font-semibold'>Tandemly</p>
+        <Sidebar className="bg-educational-gradient-dark border-r border-educational">
+            <SidebarHeader className='text-sidebar-accent-foreground p-6'>
+                <Link href="/" className='flex items-center gap-3 px-2 pt-2 group'>
+                    <div className="p-2 bg-primary-gradient rounded-xl shadow-educational">
+                        <Image src="/logo.svg" alt="Logo" width={32} height={32} className="filter brightness-0 invert" />
+                    </div>
+                    <div>
+                        <p className='text-2xl font-bold text-white'>Tandemly</p>
+                        <p className='text-xs text-muted-foreground font-medium'>AI Learning Platform</p>
+                    </div>
                 </Link>
             </SidebarHeader>
 
-            <div className='px-4 py-2'>
-                <Separator className='opacity-10 text-[#5D6B68]' />
+            <div className='px-6 py-2'>
+                <Separator className='opacity-20 border-sidebar-border' />
             </div>
 
             <SidebarContent>
@@ -55,18 +60,32 @@ const DashboardSidebar = () => {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {firstSection.map((item, i) => (
-                                <SidebarMenuItem key={i}>
+                                <SidebarMenuItem key={i} className="px-3">
                                     <SidebarMenuButton
                                         asChild
                                         className={cn(
-                                            "h-10 hover:bg-linear-to-r/oklch border-transparent hover:border-[#5D6B68]/10 from-sidebar-accent from-5% via-30% via-sidebar/50 to-sidebar/50",
-                                            pathname === item.href && "bg-linear-to-r/oklch border-[#5D6B68]/10"
+                                            "h-12 rounded-xl hover:bg-sidebar-accent/50 border-transparent hover:border-sidebar-border/50 hover-lift transition-all duration-200 group",
+                                            pathname === item.href && "bg-primary-gradient border-sidebar-border/50 shadow-educational"
                                         )}
                                         isActive={pathname === item.href}
                                     >
-                                        <Link href={item.href} className="flex items-center gap-2">
-                                            <item.icon className="size-5 text-sidebar-accent-foreground" />
-                                            <span className="text-sm font-medium tracking-tight">{item.label}</span>
+                                        <Link href={item.href} className="flex items-center gap-3 px-4">
+                                            <div className={cn(
+                                                "p-2 rounded-lg transition-colors",
+                                                pathname === item.href 
+                                                    ? "bg-white/20 text-white" 
+                                                    : "bg-sidebar-accent/30 text-sidebar-accent-foreground group-hover:bg-white/10 group-hover:text-white"
+                                            )}>
+                                                <item.icon className="size-5" />
+                                            </div>
+                                            <span className={cn(
+                                                "text-sm font-semibold tracking-tight transition-colors",
+                                                pathname === item.href 
+                                                    ? "text-white" 
+                                                    : "text-sidebar-accent-foreground group-hover:text-white"
+                                            )}>
+                                                {item.label}
+                                            </span>
                                         </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
@@ -76,11 +95,11 @@ const DashboardSidebar = () => {
                 </SidebarGroup>
             </SidebarContent>
 
-            <div className='px-4 py-2'>
-                <Separator className='opacity-10 text-[#5D6B68]' />
+            <div className='px-6 py-2'>
+                <Separator className='opacity-20 border-sidebar-border' />
             </div>
 
-            <SidebarFooter className='text-white'>
+            <SidebarFooter className='p-6 text-white'>
                <DashBoardUserButton/>
             </SidebarFooter>
         </Sidebar>

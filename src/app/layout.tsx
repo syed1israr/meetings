@@ -32,7 +32,7 @@ export default function RootLayout({
     <TRPCReactProvider>
     <html lang="en">
       <body
-        className={`${orbitron.variable} ${jetBrainsMono.variable} antialiased`}
+        className={`${orbitron.variable} ${jetBrainsMono.variable} antialiased bg-educational-gradient min-h-screen`}
       >
         <Toaster/>
         {children}

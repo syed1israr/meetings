@@ -7,10 +7,11 @@ import { Scrollbar } from '@radix-ui/react-scroll-area'
 import { format } from 'date-fns'
 import { BookOpenTextIcon, ClockFadingIcon, FileTextIcon, FileVideoIcon, SparkleIcon } from 'lucide-react'
 import Link from 'next/link'
-import { MeetingGetOne } from '../../types'
+
 import  Markdown  from "react-markdown"
 import Transcript from './Transcript'
 import { ChatProvider } from './Chat_Provider'
+import { MeetingGetOne } from '../types'
 
 interface props{
     data : MeetingGetOne
@@ -68,10 +69,12 @@ export const Completed_state = ({ data } : props) => {
                 </div>
             </TabsContent>
             <TabsContent value='Transcript'>
-                <Transcript meetingId = { data.id} />
+                {/* <Transcript meetingId = { data.id} /> */}
+                Transcript
             </TabsContent>
             <TabsContent value='chat'>
-                <ChatProvider meetingId={data.id} meetingName={data.name}/>
+                {/* <ChatProvider meetingId={data.id} meetingName={data.name}/> */}
+                chat provider
             </TabsContent>
             <TabsContent value='summary'>
                 <div className='bg-white rounded-lg border'>
