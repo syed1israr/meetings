@@ -1,5 +1,6 @@
 import { LoadingState } from "@/components/loading-state";
-import { useTRPC } from "@/trpc/client"
+import { useTRPC } from "@/trpc/Client";
+
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Channel as StreamChannel}  from "stream-chat"
