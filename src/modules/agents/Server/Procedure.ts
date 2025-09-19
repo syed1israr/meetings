@@ -1,6 +1,6 @@
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "@/constants";
 import { db } from "@/db";
-import { agents } from "@/db/schema";
+import { agents, meetings } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 import { z } from "zod";
@@ -77,7 +77,7 @@ export const agentsRouter = createTRPCRouter({
     
     const data = await db
       .select({
-        meetingCount : sql<number>`5`,
+        meetingCount : db.$count(meetings,eq(agents.id,meetings.agentId)),
         ...getTableColumns(agents)
       })
     .from(agents)

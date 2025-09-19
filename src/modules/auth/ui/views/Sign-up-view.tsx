@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaGithub, FaGoogle } from 'react-icons/fa';
 import { z } from "zod";
-
+import Image from "next/image";
 const formSchema = z.object({
   name: z.string().min(1, "Name Required"),
   email: z.string().email("Invalid email address"),
@@ -226,7 +226,7 @@ export const SignUpView = () => {
             <div className="bg-sidebar-accent relative
             hidden md:flex flex-col gap-y-4 items-center justify-center
             ">
-              <img src={"/logo.svg"} alt="image" className="h-[92px] w-[92px]"/>
+              <Image src={"/logo.svg"} alt="image" className="h-[92px] w-[92px]"/>
                 <p className="text-2xl font-semibold text-white">Tandemly</p>
             </div>
           </CardContent>
