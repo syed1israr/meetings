@@ -85,9 +85,9 @@ const Agents_Form = ({ onSuccess, onCancel, initalValues }: props) => {
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Instructions</FormLabel>
+              <FormLabel>Provide a description of your agent as illustrated below</FormLabel>
               <FormControl>
-                <Textarea {...field} placeholder="you are a Helpful math assistant that can answer Questions and help with Assignments" />
+                <Textarea {...field} placeholder="A math expert with a soft, natural voice who teaches concepts at an engineering level" />
               </FormControl>
               <FormMessage/>
             </FormItem>

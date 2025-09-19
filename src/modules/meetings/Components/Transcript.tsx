@@ -11,7 +11,8 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { GenerateAvatarUri } from '@/lib/avatar';
-import { useTRPC } from '@/trpc/client';
+import { useTRPC } from '@/trpc/Client';
+
 
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';

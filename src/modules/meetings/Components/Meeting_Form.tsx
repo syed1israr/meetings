@@ -1,3 +1,4 @@
+'use client'
 import { useTRPC } from "@/trpc/Client";
 import { MeetingGetOne } from "../types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -14,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import Command_select from "./Command-select";
 import { GenerateAvatar } from "@/components/generator";
 import { Button } from "@/components/ui/button";
-`use client`
+
 
 interface props {
   onSuccess?: (id?:string) => void;

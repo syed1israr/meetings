@@ -69,12 +69,11 @@ export const Completed_state = ({ data } : props) => {
                 </div>
             </TabsContent>
             <TabsContent value='Transcript'>
-                {/* <Transcript meetingId = { data.id} /> */}
-                Transcript
+                <Transcript meetingId = { data.id} />
             </TabsContent>
             <TabsContent value='chat'>
-                {/* <ChatProvider meetingId={data.id} meetingName={data.name}/> */}
-                chat provider
+                <ChatProvider meetingId={data.id} meetingName={data.name}/>
+                
             </TabsContent>
             <TabsContent value='summary'>
                 <div className='bg-white rounded-lg border'>
