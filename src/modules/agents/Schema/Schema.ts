@@ -5,6 +5,7 @@ import { z } from 'zod';
 export const AgentSchema = z.object({
     name : z.string().min(1, "Name is required"),
     instructions : z.string().min(1, "Instructions are required"),
+    category: z.enum(["education", "support", "interview", "facilitation", "sales", "general"]),
 })
 
 

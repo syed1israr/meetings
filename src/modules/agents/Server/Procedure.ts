@@ -70,10 +70,11 @@ export const agentsRouter = createTRPCRouter({
   .input(z.object({
     page: z.number().default(DEFAULT_PAGE),
     pageSize: z.number().min(MIN_PAGE_SIZE).max(MAX_PAGE_SIZE).default(DEFAULT_PAGE_SIZE),
-    search: z.string().nullish()
+    search: z.string().nullish(),
+    category: z.string().nullish()
   }))
   .query(async ({ input, ctx }) => {
-    const { search, page, pageSize } = input;
+    const { search, category, page, pageSize } = input;
     
     const data = await db
       .select({
@@ -85,6 +86,7 @@ export const agentsRouter = createTRPCRouter({
         and(
           eq(agents.userId , ctx.auth.user.id),
           search ? ilike(agents.name,`%${search}%`) : undefined,
+          category ? eq(agents.category, category) : undefined,
         )
       )
       .orderBy(desc(agents.createdAt),desc(agents.id))
@@ -94,6 +96,7 @@ export const agentsRouter = createTRPCRouter({
       const [total] = await db.select({count : count()}).from(agents).where(and(
           eq(agents.userId , ctx.auth.user.id),
           search ? ilike(agents.name,`%${search}%`) : undefined,
+          category ? eq(agents.category, category) : undefined,
         ))
 
     
@@ -148,5 +151,20 @@ export const agentsRouter = createTRPCRouter({
       }).returning();
 
       return createdAgent;
+    }),
+
+    createMultiple: protectedProcedure
+    .input(z.object({
+      agents: z.array(AgentSchema)
+    }))
+    .mutation(async ({ input, ctx }) => {
+      const agentsToCreate = input.agents.map(agent => ({
+        ...agent,
+        userId: ctx.auth.user.id,
+      }));
+
+      const createdAgents = await db.insert(agents).values(agentsToCreate).returning();
+
+      return createdAgents;
     }),
 })
