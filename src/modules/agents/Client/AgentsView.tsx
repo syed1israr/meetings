@@ -57,7 +57,6 @@ const AgentsView = () => {
             open={showTemplateDialog}
             onOpenChange={setShowTemplateDialog}
             onSuccess={() => {
-              // Data will refresh automatically due to query invalidation
             }}
           />
         </>
