@@ -79,11 +79,19 @@ export const AgentIdView = ({ agentId }: props) => {
                     </div>
                     {/* This div now contains the badge and instructions, placed below the avatar/name */}
                     <div className="flex flex-col gap-y-4">
-                        <Badge variant={"outline"} className="flex items-center gap-x-2 w-fit [&svg]:size-4"> {/* Added w-fit to constrain badge width */}
-                            <VideoIcon className="text-blue-700" />
-                            {data.meetingCount} {data.meetingCount === 1 ? "Meeting" : "Meetings"}
-                        </Badge>
-                        <div> {/* This div wraps the instructions to create vertical spacing */}
+                        <div className="flex items-center gap-x-2 flex-wrap">
+                            <Badge 
+                                variant="outline" 
+                                className="bg-blue-100 text-blue-800 border-blue-200 capitalize"
+                            >
+                                {data.category}
+                            </Badge>
+                            <Badge variant={"outline"} className="flex items-center gap-x-2 [&svg]:size-4">
+                                <VideoIcon className="text-blue-700" />
+                                {data.meetingCount} {data.meetingCount === 1 ? "Meeting" : "Meetings"}
+                            </Badge>
+                        </div>
+                        <div>
                             <p className="text-lg font-medium">Instructions</p>
                             <p className="text-neutral-800">{data.instructions}</p>
                         </div>

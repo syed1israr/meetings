@@ -10,15 +10,17 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { NewAgentDialog } from './newAgentDialog'
 import { useAgentsFilters } from '@/hooks/Use_Agents_Filters'
 import { AGENT_Search_Filters } from './Agents_search_filter'
+import { AgentCategoryFilter } from './AgentCategoryFilter'
 
 const ListHeaders = () => {
   const [DialogeisOpen, setDialogeisOpen] = useState(false);
   const [filters, setfilters] = useAgentsFilters();
-  const isAnyFilterModified = !!filters.search;
+  const isAnyFilterModified = !!filters.search || !!filters.category;
 
   const onClearFilter = () =>{
     setfilters({
       search:"",
+      category: "",
       page:DEFAULT_PAGE 
     })
   }
@@ -33,6 +35,10 @@ const ListHeaders = () => {
         <ScrollArea>
            <div className='flex items-center gap-x-2 p-1'>
           <AGENT_Search_Filters/>
+          <AgentCategoryFilter 
+            selectedCategory={filters.category || ""}
+            onCategoryChange={(category) => setfilters(prev => ({ ...prev, category, page: DEFAULT_PAGE }))}
+          />
           { isAnyFilterModified && (
             <Button variant={"outline"} size={"sm"} onClick={onClearFilter}>
               <XCircleIcon/>

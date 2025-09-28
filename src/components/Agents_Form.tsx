@@ -1,6 +1,7 @@
 import { GenerateAvatar } from "@/components/generator";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AgentSchema } from '@/modules/agents/Schema/Schema';
 import { AgentGetOne } from '@/modules/agents/types';
 import { useTRPC } from '@/trpc/Client';
@@ -28,6 +29,7 @@ const Agents_Form = ({ onSuccess, onCancel, initalValues }: props) => {
     defaultValues: {
     name: initalValues?.name || "",
       instructions: initalValues?.instructions || "",
+      category: (initalValues?.category as "education" | "support" | "interview" | "facilitation" | "sales" | "general") || "general",
     },
   });
    const isEdit = !!initalValues?.id;
@@ -75,6 +77,32 @@ const Agents_Form = ({ onSuccess, onCancel, initalValues }: props) => {
               <FormControl>
                 <Input {...field} placeholder="e.g. Math tutor" />
               </FormControl>
+              <FormMessage/>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="category"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Category</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="education">Education</SelectItem>
+                  <SelectItem value="support">Support</SelectItem>
+                  <SelectItem value="interview">Interview</SelectItem>
+                  <SelectItem value="facilitation">Facilitation</SelectItem>
+                  <SelectItem value="sales">Sales</SelectItem>
+                  <SelectItem value="general">General</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage/>
             </FormItem>
           )}

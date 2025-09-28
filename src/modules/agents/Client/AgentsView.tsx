@@ -1,8 +1,10 @@
 'use client';
+import { useState } from 'react';
 import { columns } from '@/components/Columns';
 import DataPagination from '@/components/DataPagination';
 import { DataTable } from '@/components/DataTable';
 import { Empty_state } from '@/components/Empty_state';
+import { AgentTemplateDialog } from '@/components/AgentTemplateDialog';
 import { useAgentsFilters } from '@/hooks/Use_Agents_Filters';
 import { useTRPC } from '@/trpc/Client';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -14,6 +16,7 @@ const AgentsView = () => {
     const trpc = useTRPC();
     const [filters,setfilters] = useAgentsFilters();
     const router = useRouter();
+    const [showTemplateDialog, setShowTemplateDialog] = useState(false);
     const { data } = useSuspenseQuery(trpc.agents.getMany.queryOptions({
       ...filters
     }));
@@ -37,11 +40,27 @@ const AgentsView = () => {
     // }
     if( data?.items.length === 0 ){
       return (
+        <>
           <Empty_state
-          title="Create your First Agent"
-          description="Create an Agent to Join your Meetings, Each Agent will follow your instructions and can interact with participants during the call."
-        />
-        
+            title="Create your First Agent"
+            description="Create an Agent to Join your Meetings, Each Agent will follow your instructions and can interact with participants during the call."
+          />
+          <div className="flex justify-center mt-6">
+            <button
+              onClick={() => setShowTemplateDialog(true)}
+              className="text-sm text-primary hover:underline"
+            >
+              Or choose from our pre-made agent templates
+            </button>
+          </div>
+          <AgentTemplateDialog
+            open={showTemplateDialog}
+            onOpenChange={setShowTemplateDialog}
+            onSuccess={() => {
+              // Data will refresh automatically due to query invalidation
+            }}
+          />
+        </>
       )
     }
     return (
