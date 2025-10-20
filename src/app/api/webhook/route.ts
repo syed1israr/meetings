@@ -99,7 +99,21 @@ export async function POST(req:NextRequest){
               agentUserId : existingAgent.id
           })
          await realTimeClient.updateSession({
-            instructions: existingAgent.instructions
+            instructions: `
+You are an expert strictly limited to the user's configured topic and role below. Your highest priority is to stay within scope at all times.
+TOPIC (SOURCE OF TRUTH):
+${existingAgent.instructions}
+ROLE: ${existingAgent.name}
+STRICT POLICY:
+1) Before answering, quickly check: Is the user's request strictly within the topic/role or current meeting context?
+2) If in-scope: answer concisely with practical, step-by-step guidance as a seasoned expert.
+3) If out-of-scope or uncertain: DO NOT ANSWER. Instead respond exactly with a brief refusal and redirection:
+   "I’m focused on ${existingAgent.name}'s scope. Could you rephrase within that topic?"
+   Optionally add one example of an in-scope area.
+4) If information is insufficient, ask a targeted clarifying question.
+5) Be concise and factual. Avoid speculation, trivia, or generic filler.
+`,
+        
         });
       } catch (error) {
         return NextResponse.json({ error: "OpenAI connection failed", details: String(error) }, { status: 500 });
@@ -189,25 +203,78 @@ export async function POST(req:NextRequest){
         }
 
         if( userId !== existingAgent.id ){
+          // Pre-filter: classify scope before any generation call
+          const scopeCheckSystem = `You are a strict scope classifier. Return JSON only.
+Fields:
+- in_scope: boolean (true only if the user message is clearly about the meeting summary OR the agent topic/role)
+- reason: short string
+Rules:
+- If uncertain, set in_scope to false.`.trim();
+
+          const scopeCheckUser = `Agent Topic/Role:\n${existingAgent.instructions}\n\nMeeting Summary:\n${existingMeeting.summary}\n\nUser Message:\n${text}`;
+
+          let isInScope = true;
+          try{
+            const scopeResp = await openaiClient.chat.completions.create({
+              model: 'gpt-4o-mini',
+              response_format: { type: 'json_object' },
+              messages: [
+                { role: 'system', content: scopeCheckSystem },
+                { role: 'user', content: scopeCheckUser },
+              ],
+              temperature: 0,
+              max_tokens: 100,
+            });
+            const raw = scopeResp.choices[0]?.message?.content || '{}';
+            const parsed = JSON.parse(raw) as { in_scope?: boolean };
+            isInScope = parsed.in_scope === true;
+          }catch{
+            // Fail-safe: refuse if classifier fails
+            isInScope = false;
+          }
+
+          if( !isInScope ){
+            const preChannel = streamChat.channel("messaging",channelId);
+            await preChannel.watch();
+            const avatarUrl = GenerateAvatarUri({
+              seed : existingAgent.name,
+              variant : "botttsNeutral",
+            })
+            await streamChat.upsertUser({
+              id : existingAgent.id,
+              name : existingAgent.name,
+              image : avatarUrl
+            })
+            await preChannel.sendMessage({
+              text : `I’m focused on ${existingAgent.name}'s scope and this meeting. Could you rephrase within that context?`,
+              user : {
+                  id : existingAgent.id,
+                  name : existingAgent.name,
+                  image : avatarUrl
+              }
+            })
+            return NextResponse.json({ status : "ok" });
+          }
+
            const instructions = `
-      You are an AI assistant helping the user revisit a recently completed meeting.
-      Below is a summary of the meeting, generated from the transcript:
-      
-      ${existingMeeting.summary}
-      
-      The following are your original instructions from the live meeting assistant. Please continue to follow these behavioral guidelines as you assist the user:
-      
-      ${existingAgent.instructions}
-      
-      The user may ask questions about the meeting, request clarifications, or ask for follow-up actions.
-      Always base your responses on the meeting summary above.
-      
-      You also have access to the recent conversation history between you and the user. Use the context of previous messages to provide relevant, coherent, and helpful responses. If the user's question refers to something discussed earlier, make sure to take that into account and maintain continuity in the conversation.
-      
-      If the summary does not contain enough information to answer a question, politely let the user know.
-      
-      Be concise, helpful, and focus on providing accurate information from the meeting and the ongoing conversation.
-      `;
+You are an expert assistant restricted to the agent's configured topic/role.
+
+MEETING SUMMARY (PRIMARY CONTEXT):
+${existingMeeting.summary}
+
+AGENT TOPIC & ROLE (SOURCE OF TRUTH):
+${existingAgent.instructions}
+
+STRICT SCOPE RULES:
+- Only answer questions directly related to the meeting summary and the topic/role above.
+- If the user asks something out-of-scope (unrelated to the meeting or the topic/role), refuse politely and redirect back to the topic. Example: "I’m focused on ${existingAgent.name}'s scope and this meeting. Could you rephrase within that context?"
+- Ask targeted clarifying questions when needed; do not hallucinate or speculate.
+- Provide concise, accurate, step-by-step expert guidance when applicable.
+
+CONVERSATION USE:
+- Use recent conversation history for coherence and continuity.
+- If the summary or context is insufficient, say so and request the missing info.
+`;
 
       const channel = streamChat.channel("messaging",channelId);
       await channel.watch();
@@ -226,7 +293,8 @@ export async function POST(req:NextRequest){
             ...prevMessage,
             { role : "user", content : text},
         ],
-        model: 'gpt-3.5-turbo'
+        model: 'gpt-4o-mini',
+        temperature: 0.3
       })
 
       const GPTresText = GPTResponse.choices[0].message.content;

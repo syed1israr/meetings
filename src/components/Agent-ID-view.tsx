@@ -29,7 +29,6 @@ export const AgentIdView = ({ agentId }: props) => {
         trpc.agents.remove.mutationOptions({
          onSuccess: async () => {
                     await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}));
-                    
                     router.push("/agents");
                 },
             onError: (error) =>{
@@ -49,8 +48,6 @@ export const AgentIdView = ({ agentId }: props) => {
         removeAgent.mutate({ id: agentId });
     }
     };
-
-
 
     return (
         <>
@@ -77,7 +74,7 @@ export const AgentIdView = ({ agentId }: props) => {
                         />
                         <h2 className="text-2xl font-medium">{data.name}</h2>
                     </div>
-                    {/* This div now contains the badge and instructions, placed below the avatar/name */}
+                    
                     <div className="flex flex-col gap-y-4">
                         <div className="flex items-center gap-x-2 flex-wrap">
                             <Badge 
@@ -88,6 +85,7 @@ export const AgentIdView = ({ agentId }: props) => {
                             </Badge>
                             <Badge variant={"outline"} className="flex items-center gap-x-2 [&svg]:size-4">
                                 <VideoIcon className="text-blue-700" />
+                                
                                 {data.meetingCount} {data.meetingCount === 1 ? "Meeting" : "Meetings"}
                             </Badge>
                         </div>
