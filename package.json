@@ -9,7 +9,10 @@
     "lint": "next lint",
     "db:push": "drizzle-kit push",
     "dev:webhook": "ngrok http --url=toad-rich-eel.ngrok-free.app 3000",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "simulate": "node ./scripts/script.js",
+    "analyze": "python ./scripts/analyze_results.py ./scripts/sessions.csv",
+    "sim-and-analyze": "npm run simulate && npm run analyze"
   },
   "dependencies": {
     "@dicebear/collection": "^9.2.2",
