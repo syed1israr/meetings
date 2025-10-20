@@ -1,0 +1,46 @@
+DESCRIPTIVE
+                              N  pre_mean  pre_sd  post_mean  post_sd  gain_mean  gain_sd  rouge_mean  rouge_sd  ai_latency_med  ai_latency_iqr
+group                                                                                                                                          
+Google Classroom             75    51.280  11.691     57.000   13.003      5.720    4.806       0.704     0.024           370.0             145
+Microsoft Teams (Education)  75    49.800  11.084     54.867   12.341      5.067    5.079       0.699     0.024           352.0             121
+Moodle LMS                   75    51.627  10.000     56.920   11.872      5.293    4.868       0.696     0.023           387.0             112
+Tandemly                     75    47.453  10.038     61.467    9.657     14.013    4.947       0.782     0.021           231.0              82
+
+Tandemly paired t-test: t=24.532, p=2.808e-37, Cohen_d=2.833
+
+ANOVA gain
+   Source           SS   DF           MS         F         p-unc      np2
+0   group  4228.516667    3  1409.505556  58.08898  1.478320e-29  0.37057
+1  Within  7182.320000  296    24.264595       NaN           NaN      NaN
+
+Pairwise gain
+  Contrast                            A                            B  Paired  Parametric          T    dof alternative         p-unc        p-corr p-adjust       BF10    hedges
+0    group             Google Classroom  Microsoft Teams (Education)   False        True   0.809207  148.0   two-sided  4.196949e-01  1.000000e+00     bonf      0.237  0.131472
+1    group             Google Classroom                   Moodle LMS   False        True   0.540169  148.0   two-sided  5.898922e-01  1.000000e+00     bonf      0.201  0.087762
+2    group             Google Classroom                     Tandemly   False        True -10.413523  148.0   two-sided  2.154473e-19  1.292684e-18     bonf  1.695e+16 -1.691889
+3    group  Microsoft Teams (Education)                   Moodle LMS   False        True  -0.279037  148.0   two-sided  7.806057e-01  1.000000e+00     bonf      0.182 -0.045335
+4    group  Microsoft Teams (Education)                     Tandemly   False        True -10.928398  148.0   two-sided  9.406702e-21  5.644021e-20     bonf  3.551e+17 -1.775541
+5    group                   Moodle LMS                     Tandemly   False        True -10.880820  148.0   two-sided  1.257177e-20  7.543062e-20     bonf  2.678e+17 -1.767811
+ANOVA rouge
+   Source        SS   DF        MS           F         p-unc       np2
+0   group  0.382978    3  0.127659  242.351943  2.244822e-79  0.710671
+1  Within  0.155919  296  0.000527         NaN           NaN       NaN
+
+Pairwise rouge
+  Contrast                            A                            B  Paired  Parametric          T    dof alternative         p-unc        p-corr p-adjust       BF10    hedges
+0    group             Google Classroom  Microsoft Teams (Education)   False        True   1.123747  148.0   two-sided  2.629400e-01  1.000000e+00     bonf      0.314  0.182576
+1    group             Google Classroom                   Moodle LMS   False        True   1.911372  148.0   two-sided  5.788980e-02  3.473388e-01     bonf      0.931  0.310541
+2    group             Google Classroom                     Tandemly   False        True -21.614752  148.0   two-sided  1.222387e-47  7.334320e-47     bonf  8.997e+43 -3.511757
+3    group  Microsoft Teams (Education)                   Moodle LMS   False        True   0.762309  148.0   two-sided  4.470889e-01  1.000000e+00     bonf       0.23  0.123853
+4    group  Microsoft Teams (Education)                     Tandemly   False        True -22.634513  148.0   two-sided  6.424356e-50  3.854613e-49     bonf  1.605e+46 -3.677438
+5    group                   Moodle LMS                     Tandemly   False        True -23.907876  148.0   two-sided  1.097873e-52  6.587237e-52     bonf  8.716e+48 -3.884322
+Kruskal-Wallis latency: H=124.786, p=7.187e-27
+
+Pairwise latency
+  Contrast                            A                            B  Paired  Parametric   U-val alternative         p-unc        p-corr p-adjust    hedges
+0    group             Google Classroom  Microsoft Teams (Education)   False       False  2915.0   two-sided  7.014107e-01  1.000000e+00     bonf  0.056030
+1    group             Google Classroom                   Moodle LMS   False       False  2337.0   two-sided  7.418609e-02  4.451165e-01     bonf -0.297000
+2    group             Google Classroom                     Tandemly   False       False  5136.5   two-sided  2.464759e-18  1.478855e-17     bonf  1.980506
+3    group  Microsoft Teams (Education)                   Moodle LMS   False       False  2253.0   two-sided  3.561490e-02  2.136894e-01     bonf -0.348967
+4    group  Microsoft Teams (Education)                     Tandemly   False       False  5109.5   two-sided  6.000023e-18  3.600014e-17     bonf  1.866347
+5    group                   Moodle LMS                     Tandemly   False       False  5347.0   two-sided  1.652075e-21  9.912447e-21     bonf  2.401192

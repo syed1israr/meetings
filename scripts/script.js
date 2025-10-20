@@ -25,7 +25,6 @@ function gaussianScore(mu,sigma){
     const satisfaction = +(Math.random()*(group==='Tandemly'?1.2:0.6) + (group==='Tandemly'?8.8:7.0)).toFixed(1);
     const session_id = `s-${Date.now()}-${i}`;
 
-    // try POSTing a simple webhook to your local server (non-blocking)
     const payload = {
       type: 'call.transcription_ready',
       call_cid: `call:${session_id}`,
@@ -33,15 +32,17 @@ function gaussianScore(mu,sigma){
     };
 
     try {
-      // Node 18+ has global fetch
-      await fetch(BASE_URL + WEBHOOK_PATH, {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: {'Content-Type':'application/json'}
-      }).catch(()=>{});
-    } catch(e){ /* ignore if server not running */ }
+      if (typeof fetch !== 'undefined') {
+        fetch(BASE_URL + WEBHOOK_PATH, {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: {'Content-Type':'application/json'}
+        }).catch(()=>{});
+      }
+    } catch(e){ /* ignore */ }
 
     rows.push([session_id, group, pre, post, rouge, ai_latency_ms, server_latency_ms, satisfaction].join(','));
+    // small delay to vary timestamps (not required)
   }
 
   const header = 'session_id,group,pre_score,post_score,rouge_l,ai_latency_ms,server_latency_ms,satisfaction\n';
